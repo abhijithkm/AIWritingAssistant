@@ -1,0 +1,9 @@
+node_modules/
+dist/
+release/
+.env*
+!.env.example
+*.pem
+*.key
+secrets.*
+.DS_Store

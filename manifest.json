@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "AI Writer",
+  "version": "0.1.0",
+  "description": "Rewrite selected text with a compact AI writing assistant.",
+  "homepage_url": "https://abhijithkm.space/",
+  "icons": {
+    "16": "icons/icon-16.png",
+    "32": "icons/icon-32.png",
+    "48": "icons/icon-48.png",
+    "128": "icons/icon-128.png"
+  },
+  "permissions": ["storage", "clipboardWrite", "sidePanel"],
+  "side_panel": { "default_path": "panel.html" },
+  "host_permissions": ["https://openrouter.ai/*"],
+  "background": {
+    "service_worker": "assets/service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "AI Writer",
+    "default_popup": "index.html",
+    "default_icon": {
+      "16": "icons/icon-16.png",
+      "32": "icons/icon-32.png",
+      "48": "icons/icon-48.png",
+      "128": "icons/icon-128.png"
+    }
+  },
+  "content_scripts": [
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["assets/content.js"],
+      "all_frames": true,
+      "run_at": "document_idle"
+    },
+    {
+      "matches": ["https://meet.google.com/*"],
+      "js": ["assets/meet-content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}

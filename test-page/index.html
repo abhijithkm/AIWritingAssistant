@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Writer test page</title>
+  <style>
+    body { max-width: 760px; margin: 24px auto; padding: 0 16px; font: 15px/1.4 system-ui, sans-serif; color: #1f2233; }
+    h1 { font-size: 20px; } h2 { margin: 26px 0 6px; font-size: 15px; }
+    p.note { margin: 0 0 14px; color: #565b6e; }
+    label { display: block; margin: 12px 0 4px; font-weight: 600; }
+    input, textarea, [contenteditable] { width: 100%; padding: 8px 10px; border: 1px solid #8b90a5; border-radius: 6px; font: inherit; }
+    textarea { min-height: 70px; }
+    [contenteditable] { min-height: 44px; }
+    #log { max-height: 140px; overflow: auto; padding: 8px; background: #f3f4f8; border-radius: 6px; font: 12px/1.5 ui-monospace, monospace; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <h1>AI Writer test page</h1>
+  <p class="note">Select text in a field, then use the floating button. Supported fields should show it; the control fields should not.</p>
+
+  <h2>Supported (button should appear)</h2>
+  <label for="t-text">input type="text"</label>
+  <input id="t-text" type="text" value="i has went to the store yesterday and buyed two apple" />
+
+  <label for="t-notype">input (no type attribute)</label>
+  <input id="t-notype" value="me and him was talking about the meeting we has tomorrow" />
+
+  <label for="t-search">input type="search"</label>
+  <input id="t-search" type="search" value="best way for learn javascript fast without paying nothing" />
+
+  <label for="t-area">textarea</label>
+  <textarea id="t-area">Their going to the park later, and its going to be alot of fun. We was hoping you could come to.</textarea>
+
+  <label id="l-ce">contenteditable="true" (plain text)</label>
+  <div id="t-ce" contenteditable="true" aria-labelledby="l-ce">this sentence are not very good and need fixing up real quick</div>
+
+  <label id="l-rich">contenteditable="true" (rich: bold + italic inside)</label>
+  <div id="t-rich" contenteditable="true" aria-labelledby="l-rich">The <b>meeting</b> is <i>probly</i> going to be moved to next week because of the thing</div>
+
+  <label id="l-plain">contenteditable="plaintext-only"</label>
+  <div id="t-plain" contenteditable="plaintext-only" aria-labelledby="l-plain">pls send me the report asap i need it for the presentation</div>
+
+  <h2>Unsupported (control: button should NOT appear)</h2>
+  <label for="c-email">input type="email"</label>
+  <input id="c-email" type="email" value="this is not really an email address text" />
+  <label for="c-url">input type="url"</label>
+  <input id="c-url" type="url" value="https://example.com/some/long/path" />
+  <label for="c-tel">input type="tel"</label>
+  <input id="c-tel" type="tel" value="555 123 4567 call me" />
+  <label for="c-password">input type="password"</label>
+  <input id="c-password" type="password" value="secret words here" />
+  <label for="c-number">input type="number"</label>
+  <input id="c-number" type="number" value="12345" />
+  <label for="c-readonly">textarea readonly</label>
+  <textarea id="c-readonly" readonly>this textarea is readonly so replacing should not be possible</textarea>
+
+  <h2>Input event log</h2>
+  <p class="note">Replace should fire one <code>input</code> event on the edited field.</p>
+  <pre id="log">(no input events yet)</pre>
+  <script>
+    const log = document.getElementById('log');
+    let first = true;
+    document.addEventListener('input', (event) => {
+      if (first) { log.textContent = ''; first = false; }
+      const t = event.target;
+      const value = t.value !== undefined ? t.value : t.textContent;
+      log.textContent += `${t.id || t.tagName} ${event.type}/${event.inputType || '-'}: ${value}\n`;
+    }, true);
+  </script>
+</body>
+</html>
